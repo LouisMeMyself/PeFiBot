@@ -1,0 +1,4 @@
+PROFILE_PICTURE_COMMAND = "!pefipic"
+PEFIPIC_CHANNEL_NAME = "🐧profile-pictures"
+PEFIREACT_CHANNEL_NAME = "guidelines"
+PEFIPRICE_CHANNEL_NAME = "bot"
