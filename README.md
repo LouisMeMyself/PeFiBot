@@ -1,4 +1,4 @@
-# [PeFiBot](https://github.com/LouisMeMyself/pefibot)
+# [PefiBot](https://github.com/LouisMeMyself/pefibot)
 
 A small bot to create profile picture using Penguin logo.
 
