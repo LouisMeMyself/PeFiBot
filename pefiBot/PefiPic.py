@@ -8,23 +8,28 @@ from constants import Constants
 class PefiPic:
     def __init__(self):
         self.hex_regex = re.compile("^[0-9a-fA-F]{6}")
+        # PefiLogo
         with open("utils/pefi-logo.svg", "rb") as f:
             self.pefiSVG = f.read().decode("utf-8")
-        self.fur_index = str(self.pefiSVG).find("#5E6061;}")
-        self.eyes_index = str(self.pefiSVG).find("#FFFFFF;}")
+        self.pefi_index = str(self.pefiSVG).find("#E84243;}")
         self.pefiSVG = list(self.pefiSVG)
+        # xPefiLogo
+        with open("utils/xpefi-logo.svg", "rb") as f:
+            self.xpefiSVG = f.read().decode("utf-8")
+        self.xpefi_index = str(self.xpefiSVG).find("#FC2736;}")
+        self.xpefiSVG = list(self.xpefiSVG)
 
 
     def str2hex(self, new_color):
         if new_color.replace(" ", "").replace(",", "") == "":  # handles empty messages
-            return """Please write a HEX color or a RGB color. in these formats: '#00FFFF', '00FFFF', '0 255 255' or '0,255,255\nThe command should look like this: `!pefipic [color]`"""
+            raise ValueError
         if new_color[0] == "#" and self.hex_regex.match(new_color[1:]) is not None and len(
                 new_color) == 7:  # handles the "#XXXXXX" hex colours
             new_color = new_color[1:]
         elif " " in new_color or "," in new_color:
             if " " in new_color and "," in new_color:  # handles the "R,        G,    B" colours
                 new_color = new_color.replace(" ", "")
-            elif "," in new_color:  # handles the "R,G,B" colours
+            if "," in new_color:  # handles the "R,G,B" colours
                 new_color = np.array(new_color.split(","), dtype=int)
             elif " " in new_color:  # handles the "R G B" colours
                 new_color = np.array(new_color.split(" "), dtype=int)
@@ -39,32 +44,18 @@ class PefiPic:
 
     def do_profile_picture(self, content):
         try:
-            if Constants.PROFILE_PICTURE_FULL in content:
-                colors = str(content.replace(Constants.PROFILE_PICTURE_FULL, "")[1:])
-                colors = colors.split(" ")
-                if len(colors) == 6:  # R G B and R G B
-                    colors = (",".join(colors[:3]), ",".join(colors[3:]))
-                elif len(colors) == 2:  # Hexa/Hexa or R,G,B/R,G,B or Hexa/R,G,B or R,G,B/Hexa
-                    colors = ("".join(colors[0]), "".join(colors[1]))
-                elif len(colors) == 4:
-                    if len(colors[0]) >= 6:  # Hexa/R G B
-                        colors = ("".join(colors[0]), "".join(colors[:1]))
-                    elif len(colors[3]) >= 6:  # R G B/Hexa
-                        colors = (",".join(colors[:3]), "".join(colors[3]))
-                else:
-                    raise ValueError
-                self.pefiSVG[self.fur_index + 1: self.fur_index + 7] = self.str2hex(colors[0])
-                self.pefiSVG[self.eyes_index + 1: self.eyes_index + 7] = self.str2hex(colors[1])
+            if Constants.PEFI_PICTURE_COMMAND in content:  # Pefi logo
+                new_color = str(content.replace(Constants.PEFI_PICTURE_COMMAND, "")[1:])
+                self.pefiSVG[self.pefi_index + 1: self.pefi_index + 7] = self.str2hex(new_color)
+                svg2png("".join(self.pefiSVG), write_to="utils/pefiPP.png")
+                return "Here is your personalized profile picture! 🐧", discord.File("utils/pefiPP.png")
 
-            elif Constants.PROFILE_PICTURE_COMMAND in content:
-                new_color = str(content.replace(Constants.PROFILE_PICTURE_COMMAND, "")[1:])
-                self.pefiSVG[self.fur_index + 1: self.fur_index + 7] = self.str2hex(new_color)
-            elif Constants.PROFILE_PICTURE_EYES in content:
-                new_color = str(content.replace(Constants.PROFILE_PICTURE_EYES, "")[1:])
-                self.pefiSVG[self.eyes_index + 1: self.eyes_index + 7] = self.str2hex(new_color)
-            svg2png("".join(self.pefiSVG), write_to="utils/pefi-logo.png")
-            return "Here is your personalized profile picture!", discord.File("utils/pefi-logo.png")
+            elif Constants.XPEFI_PICTURE_COMMAND in content:  # xPefi logo
+                new_color = str(content.replace(Constants.XPEFI_PICTURE_COMMAND, "")[1:])
+                self.xpefiSVG[self.xpefi_index + 1: self.xpefi_index + 7] = self.str2hex(new_color)
+                svg2png("".join(self.xpefiSVG), write_to="utils/xpefiPP.png")
+                return "Here is your personalized profile picture! 🐧", discord.File("utils/xpefiPP.png")
         except ValueError:
-            return "Please write a HEX color or a RGB color. in these formats: '#00FFFF', '00FFFF', '0 255 255' or '0,255,255"
+            return """Please write a HEX color or a RGB color. in these formats: '#00FFFF', '00FFFF', '0 255 255' or '0,255,255\nThe command should look like this:  or `!xpefipic [color]`"""
         except:
             return "Unexpected error..."
