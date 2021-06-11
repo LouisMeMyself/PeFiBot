@@ -25,6 +25,12 @@ async def xpefipic(ctx):
     await pefiBot.pefipic(ctx)
 
 
+@bot.command()
+async def pefiprice(ctx):
+    """command for personalised profile picture, input a color (RGB or HEX) output a reply with the profile picture"""
+    await pefiBot.pefiprice(ctx)
+
+
 @bot.event
 async def on_command_error(ctx, error):
     await pefiBot.on_command_error(ctx, error)

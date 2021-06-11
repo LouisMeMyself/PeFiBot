@@ -37,7 +37,7 @@ class PefiPic:
                     new_color <= 255):
                 new_color = "%02x%02x%02x" % tuple(new_color)
             else:
-                return "RGB colours are between 0 and 255 and need 3 integers, like '127 255 212' or '127,255,212'"
+                raise ValueError
         if self.hex_regex.match(new_color) is not None and len(new_color) == 6:
             return new_color
         raise ValueError
@@ -56,6 +56,6 @@ class PefiPic:
                 svg2png("".join(self.xpefiSVG), write_to="utils/xpefiPP.png")
                 return "Here is your personalized profile picture! 🐧", discord.File("utils/xpefiPP.png")
         except ValueError:
-            return """Please write a HEX color or a RGB color. in these formats: '#00FFFF', '00FFFF', '0 255 255' or '0,255,255\nThe command should look like this:  or `!xpefipic [color]`"""
+            raise ValueError
         except:
             return "Unexpected error..."
