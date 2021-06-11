@@ -47,7 +47,7 @@ class PefiBot:
 
     async def pefiprice(self, ctx):
         """command that return the price of the penguin token"""
-        if ctx.message.channel.id == Constants.PEFIPRICE_CHANNEL_ID:
+        if ctx.message.channel.id in Constants.PEFIPRICE_CHANNEL_ID:
             price = await PangoAPI.getPefiPrice()
             e = discord.Embed(title="Penguin Token",
                                url="https://info.pangolin.exchange/#/token/0xe896cdeaac9615145c0ca09c8cd5c25bced6384c",
@@ -60,7 +60,7 @@ class PefiBot:
         if ctx.message.channel.id == Constants.PEFIPIC_CHANNEL_ID and isinstance(error, commands.CommandNotFound):
             await ctx.reply(embed=self.errorOnCommand(Constants.PEFI_PICTURE_COMMAND))
             return
-        if ctx.message.channel.id == Constants.PEFIPRICE_CHANNEL_ID:
+        if ctx.message.channel.id in Constants.PEFIPRICE_CHANNEL_ID:
             return
         raise error
 
