@@ -27,13 +27,13 @@ class PefiBot:
     async def pefiTicker(self):
         print("pefiTicker is up")
         while 1:
-            price = await PangoAPI.getPefiPrice()
-            activity = "PEFI: ${}".format(round(price, 2))
-            await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
+            try:
+                price = await PangoAPI.getPefiPrice()
+                activity = "PEFI: ${}".format(round(price, 2))
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
+            except:
+                print("Error, retrying in 60 seconds...")
             await asyncio.sleep(60)
-
-    ## Spin up a quick and simple event loop
-    ## and run until completed
 
     async def pefipic(self, ctx):
         """command for personalised profile picture, input a color (RGB or HEX) output a reply with the profile picture"""
