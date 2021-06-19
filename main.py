@@ -1,3 +1,5 @@
+import asyncio
+
 from discord.ext import commands
 from pefiBot.PefiBot import PefiBot
 
@@ -39,4 +41,9 @@ async def on_command_error(ctx, error):
 if __name__ == '__main__':
     with open(".key", "r") as f:
         key = f.read().replace("\n", "")
-    bot.run(key)
+    while 1:
+        try:
+            bot.run(key)
+        except:
+            print("Error trying to run the pefibot, retrying in 60 seconds")
+        asyncio.sleep(60)

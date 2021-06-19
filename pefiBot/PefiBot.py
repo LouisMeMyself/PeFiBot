@@ -25,14 +25,16 @@ class PefiBot:
 
 
     async def pefiTicker(self):
-        print("pefiTicker is up")
         while 1:
             try:
-                price = await PangoAPI.getPefiPrice()
-                activity = "PEFI: ${}".format(round(price, 2))
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
+                print("pefiTicker is up")
+                while 1:
+                    price = await PangoAPI.getPefiPrice()
+                    activity = "PEFI: ${}".format(round(price, 2))
+                    await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
+                    await asyncio.sleep(60)
             except:
-                print("Error, retrying in 60 seconds...")
+                print("Error on pefiTicker, retrying in 60 seconds...")
             await asyncio.sleep(60)
 
     async def pefipic(self, ctx):
