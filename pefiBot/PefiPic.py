@@ -11,7 +11,7 @@ class PefiPic:
         # PefiLogo
         with open("utils/pefi-logo.svg", "rb") as f:
             self.pefiSVG = f.read().decode("utf-8")
-        self.pefi_index = str(self.pefiSVG).find("#E84243;}")
+        self.pefi_index = str(self.pefiSVG).find("#E74242;}")
         self.pefiSVG = list(self.pefiSVG)
         # xPefiLogo
         with open("utils/xpefi-logo.svg", "rb") as f:
