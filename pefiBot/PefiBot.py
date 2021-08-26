@@ -33,8 +33,13 @@ class PefiBot:
                     activity = "PEFI: ${}".format(round(price, 2))
                     await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
                     await asyncio.sleep(60)
-            except:
-                print("Error on pefiTicker, retrying in 60 seconds...")
+            except ConnectionError:
+                print("Connection error, retrying in 60 seconds...")
+            except AssertionError:
+                print("Assertion Error, retrying in 60 seconds...")
+            except KeyboardInterrupt:
+                print(KeyboardInterrupt)
+                break
             await asyncio.sleep(60)
 
     async def pefipic(self, ctx):
