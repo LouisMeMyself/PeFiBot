@@ -13,6 +13,11 @@ class PefiPic:
             self.pefiSVG = f.read().decode("utf-8")
         self.pefi_index = str(self.pefiSVG).find("#E74242;}")
         self.pefiSVG = list(self.pefiSVG)
+        # iPefiLogo
+        with open("utils/ipefi-logo.svg", "rb") as f:
+            self.ipefiSVG = f.read().decode("utf-8")
+        self.ipefi_index = str(self.ipefiSVG).find("#E74242;}")
+        self.ipefiSVG = list(self.ipefiSVG)
         # xPefiLogo
         with open("utils/xpefi-logo.svg", "rb") as f:
             self.xpefiSVG = f.read().decode("utf-8")
@@ -55,6 +60,12 @@ class PefiPic:
                 self.xpefiSVG[self.xpefi_index + 1: self.xpefi_index + 7] = self.str2hex(new_color)
                 svg2png("".join(self.xpefiSVG), write_to="utils/xpefiPP.png")
                 return "Here is your personalized profile picture! 🐧", discord.File("utils/xpefiPP.png")
+
+            elif Constants.IPEFI_PICTURE_COMMAND in content:  # iPefi logo
+                new_color = str(content.replace(Constants.IPEFI_PICTURE_COMMAND, "")[1:])
+                self.ipefiSVG[self.ipefi_index + 1: self.ipefi_index + 7] = self.str2hex(new_color)
+                svg2png("".join(self.ipefiSVG), write_to="utils/ipefiPP.png")
+                return "Here is your personalized profile picture! 🐧", discord.File("utils/ipefiPP.png")
         except ValueError:
             raise ValueError
         except:
