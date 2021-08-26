@@ -12,4 +12,4 @@ ERROR_ON_PEFIPIC = """How to use pefipic for profile pictures:
 
 1. Choose a HEX color or a RGB color in these formats: `#00FFFF`, `00FFFF`, `0 255 255` or `0,255,255` [(color picker)](https://htmlcolorcodes.com/color-picker/)
 
-2. Enter this command `!pefipic [color]`, `!xpefipic` or `!ipefipic` with your selected color."""
+2. Enter this command `!pefipic [color]`, `!xpefipic [color]` or `!ipefipic [color]` with your selected color."""
