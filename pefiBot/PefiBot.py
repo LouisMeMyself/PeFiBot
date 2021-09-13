@@ -9,6 +9,7 @@ from discord.ext import commands
 
 from constants import Constants, Channels
 from pefiBot import PefiPic, PangoAPI
+from pefiBot.PefiContract import getIPefiRatio
 
 
 class PefiBot:
@@ -23,6 +24,10 @@ class PefiBot:
         print('pefiBot have logged in as {0.user}'.format(self.bot))
         self.bot.loop.create_task(self.pefiTicker())
 
+    async def ratio(self, ctx):
+        """show the current iPEFI:PEFI ratio"""
+        ratio = getIPefiRatio()
+        await ctx.reply("Current iPEFI:PEFI ratio: {}".format(ratio))
 
     async def pefiTicker(self):
         while 1:
@@ -31,7 +36,8 @@ class PefiBot:
                 while 1:
                     price = await PangoAPI.getPefiPrice()
                     activity = "PEFI: ${}".format(round(price, 2))
-                    await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
+                    await self.bot.change_presence(
+                        activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
                     await asyncio.sleep(60)
             except ConnectionError:
                 print("Connection error, retrying in 60 seconds...")
@@ -45,7 +51,7 @@ class PefiBot:
     async def pefipic(self, ctx):
         """command for personalised profile picture, input a color (RGB or HEX) output a reply with the profile picture"""
         if ctx.message.channel.id == Constants.PEFIPIC_CHANNEL_ID:
-            try :
+            try:
                 answer = self.pefiPic_.do_profile_picture(ctx.message.content)
                 await ctx.reply(answer[0], file=answer[1])
             except ValueError:
@@ -57,9 +63,9 @@ class PefiBot:
         if ctx.message.channel.id in Constants.PEFIPRICE_CHANNEL_ID:
             price = await PangoAPI.getPefiPrice()
             e = discord.Embed(title="Penguin Token",
-                               url="https://info.pangolin.exchange/#/token/0xe896cdeaac9615145c0ca09c8cd5c25bced6384c",
-                               description="Price: ${}".format(round(price, 2)),
-                               color=0xF24E4D)
+                              url="https://info.pangolin.exchange/#/token/0xe896cdeaac9615145c0ca09c8cd5c25bced6384c",
+                              description="Price: ${}".format(round(price, 2)),
+                              color=0xF24E4D)
             await ctx.send(embed=e)
         return
 

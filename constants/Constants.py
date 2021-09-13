@@ -1,6 +1,17 @@
+import json
+
 PEFI_PICTURE_COMMAND = "!pefipic"
 IPEFI_PICTURE_COMMAND = "!ipefipic"
 XPEFI_PICTURE_COMMAND = "!xpefipic"
+
+IPEFI_ADDRESS = "0xE9476e16FE488B90ada9Ab5C7c2ADa81014Ba9Ee"
+
+# ABI for web3
+try:
+    with open("utils/ipefiabi.json", "r") as f:
+        IPEFI_ABI = json.load(f)
+except:
+    IPEFI_ABI = None
 
 # PEFIPIC_CHANNEL_ID = 840324108113281034  # test server
 # PEFIPRICE_CHANNEL_ID = 852869505785135174  # test server
