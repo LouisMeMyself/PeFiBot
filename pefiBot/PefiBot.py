@@ -26,8 +26,9 @@ class PefiBot:
 
     async def ratio(self, ctx):
         """show the current iPEFI:PEFI ratio"""
-        ratio = getIPefiRatio()
-        await ctx.reply("Current iPEFI:PEFI ratio: {}".format(ratio))
+        if ctx.message.channel.id == Constants.COMMAND_CHANNEL_ID:
+            ratio = getIPefiRatio()
+            await ctx.reply("Current iPEFI:PEFI ratio: {}".format(round(ratio, 4)))
 
     async def pefiTicker(self):
         while 1:

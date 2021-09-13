@@ -17,6 +17,7 @@ except:
 # PEFIPRICE_CHANNEL_ID = 852869505785135174  # test server
 PEFIPRICE_CHANNEL_ID = (842285016695832576, 827679024565846057)
 PEFIPIC_CHANNEL_ID = 840375343406907402
+COMMAND_CHANNEL_ID = 842285016695832576
 PANGO_API_URL = "https://api.thegraph.com/subgraphs/name/dasconnor/pangolin-dex"
 
 ERROR_ON_PEFIPIC = """How to use pefipic for profile pictures:
