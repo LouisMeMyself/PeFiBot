@@ -1,6 +1,8 @@
 import asyncio
 
+import discord.ext.commands.errors
 from discord.ext import commands
+
 from pefiBot.PefiBot import PefiBot
 
 bot = commands.Bot(command_prefix='!')
@@ -26,6 +28,7 @@ async def ipefipic(ctx):
     """command for personalised profile picture, input a color (RGB or HEX) output a reply with the profile picture"""
     await pefiBot.pefipic(ctx)
 
+
 @bot.command()
 async def ratio(ctx):
     """command for personalised profile picture, input a color (RGB or HEX) output a reply with the profile picture"""
@@ -46,6 +49,8 @@ async def pefiprice(ctx):
 
 @bot.event
 async def on_command_error(ctx, error):
+    if error == discord.ext.commands.errors.CommandNotFound:
+        return
     await pefiBot.on_command_error(ctx, error)
 
 
