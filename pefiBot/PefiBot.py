@@ -31,22 +31,24 @@ class PefiBot:
             await ctx.reply("Current iPEFI:PEFI ratio: {}".format(round(ratio, 4)))
 
     async def pefiTicker(self):
+        print("pefiTicker is up")
         while 1:
-            try:
-                print("pefiTicker is up")
-                while 1:
+            while 1:
+                try:
                     price = await PangoAPI.getPefiPrice()
                     activity = "PEFI: ${}".format(round(price, 2))
                     await self.bot.change_presence(
                         activity=discord.Activity(type=discord.ActivityType.watching, name=activity))
                     await asyncio.sleep(60)
-            except ConnectionError:
-                print("Connection error, retrying in 60 seconds...")
-            except AssertionError:
-                print("Assertion Error, retrying in 60 seconds...")
-            except KeyboardInterrupt:
-                print(KeyboardInterrupt)
-                break
+                except ConnectionError:
+                    print("Connection error, retrying in 60 seconds...")
+                    break
+                except AssertionError:
+                    print("Assertion Error, retrying in 60 seconds...")
+                    break
+                except KeyboardInterrupt:
+                    print(KeyboardInterrupt)
+                    return
             await asyncio.sleep(60)
 
     async def pefipic(self, ctx):
